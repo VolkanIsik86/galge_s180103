@@ -9,8 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button start;
-    Button afslut;
+    Button start, hjælp, afslut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,9 +17,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         start = findViewById(R.id.start);
+        hjælp = findViewById(R.id.hjælp);
         afslut = findViewById(R.id.afslut);
 
         start.setOnClickListener(this);
+        hjælp.setOnClickListener(this);
         afslut.setOnClickListener(this);
 
     }
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         } else if (view == afslut){
             finish();
+            System.exit(0);
         }
 
     }
