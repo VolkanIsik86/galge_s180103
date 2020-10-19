@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+//3 knapper initaliseres til hovedmenu. Spillet starter fra start knappen.
         start = findViewById(R.id.start);
         hjælp = findViewById(R.id.hjælp);
         afslut = findViewById(R.id.afslut);
@@ -29,13 +29,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
 
+        //starter gameActivity som er selve spillet
         if(view==start){
             Intent start = new Intent(this,GameActivity.class);
             startActivity(start);
-
+            finish();
+        //Afslutter applicationnen
         } else if (view == afslut){
             finish();
             System.exit(0);
+        //Starter help aktiviteten som er en kort instruktion for spillet
+        }else if(view == hjælp){
+            Intent help = new Intent(this,Help.class);
+            startActivity(help);
+            finish();
         }
 
     }
