@@ -432,6 +432,7 @@
         android:id="@+id/A"
         android:layout_width="45dp"
         android:layout_height="45dp"
+        android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/headstone"
@@ -441,7 +442,8 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/G"
-        app:layout_constraintEnd_toStartOf="@+id/B" />
+        app:layout_constraintEnd_toStartOf="@+id/B"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/Y"
@@ -466,7 +468,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="casual"
-        android:text="Galgeleg"
+        android:text="Ord hentes"
         android:textColor="#D6D7D7"
         android:textIsSelectable="false"
         android:textSize="30sp"

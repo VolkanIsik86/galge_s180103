@@ -35,6 +35,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<Button> buttons;
     String galgeordet;
     Executor bgThread = Executors.newSingleThreadExecutor(); // håndtag til en baggrundstråd
+    Handler uiThread = new Handler(Looper.getMainLooper());  // håndtag til forgrundstråden
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,20 +44,24 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         logik = new Galgelogik();
         logik.nulstil();
+        ord=findViewById(R.id.galgeord);
 
         //Henter ord fra dr fra bagrundstråd
         bgThread.execute(() -> {
             try{
                 logik.hentOrdFraDr();
+                uiThread.post(() -> {
+                    ord.setText(logik.getSynligtOrd());
+                });
 
             }catch (Exception e){
                 e.printStackTrace();
+                uiThread.post(() -> {
+                    ord.setText("Der opstod en fejl ved hentning af ordet");
+                });
             }
         });
 
-
-        ord=findViewById(R.id.galgeord);
-        ord.setText(logik.getSynligtOrd());
         biledet = findViewById(R.id.billedet);
         buttons = new ArrayList<>();
 // initaliserer alle knapper tastetur og return knap - denne kode laves om til anden aflevering til lineær layou
