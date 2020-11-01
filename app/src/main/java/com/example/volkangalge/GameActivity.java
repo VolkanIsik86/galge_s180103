@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +50,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         //Henter ord fra dr fra bagrundstråd
         bgThread.execute(() -> {
             try{
-                logik.hentOrdFraDr();
+                logik.hentOrdFraRegneark("12");
                 uiThread.post(() -> {
                     ord.setText(logik.getSynligtOrd());
                 });
@@ -65,82 +66,45 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         biledet = findViewById(R.id.billedet);
         buttons = new ArrayList<>();
 // initaliserer alle knapper tastetur og return knap - denne kode laves om til anden aflevering til lineær layou
-        a = findViewById(R.id.A);
-        b = findViewById(R.id.B);
-        c = findViewById(R.id.C);
-        d = findViewById(R.id.D);
-        e = findViewById(R.id.E);
-        f = findViewById(R.id.F);
-        g = findViewById(R.id.G);
-        h = findViewById(R.id.H);
-        i = findViewById(R.id.I);
-        j = findViewById(R.id.J);
-        k = findViewById(R.id.K);
-        l = findViewById(R.id.L);
-        m = findViewById(R.id.M);
-        n = findViewById(R.id.N);
-        o = findViewById(R.id.O);
-        p = findViewById(R.id.P);
-        q = findViewById(R.id.Q);
-        r = findViewById(R.id.R);
-        s = findViewById(R.id.S);
-        t = findViewById(R.id.T);
-        u = findViewById(R.id.U);
-        v = findViewById(R.id.V);
-        w = findViewById(R.id.W);
-        x = findViewById(R.id.X);
-        y = findViewById(R.id.Y);
-        z = findViewById(R.id.Z);
-        æ = findViewById(R.id.Æ);
-        ø = findViewById(R.id.Ø);
-        å = findViewById(R.id.Å);
-        returnbut = findViewById(R.id.returnbut);
+        final float scale = this.getResources().getDisplayMetrics().density;
+        int pixels = (int) (40 * scale + 0.5f);
 
-        //alle knapper sættes i en arraylist.
-        buttons.add(a);
-        buttons.add(b);
-        buttons.add(c);
-        buttons.add(d);
-        buttons.add(e);
-        buttons.add(f);
-        buttons.add(g);
-        buttons.add(h);
-        buttons.add(i);
-        buttons.add(j);
-        buttons.add(k);
-        buttons.add(l);
-        buttons.add(m);
-        buttons.add(n);
-        buttons.add(o);
-        buttons.add(p);
-        buttons.add(q);
-        buttons.add(r);
-        buttons.add(s);
-        buttons.add(t);
-        buttons.add(u);
-        buttons.add(v);
-        buttons.add(w);
-        buttons.add(x);
-        buttons.add(y);
-        buttons.add(z);
-        buttons.add(æ);
-        buttons.add(ø);
-        buttons.add(å);
-        buttons.add(returnbut);
-    // oncliklistener til alle knapper
-        for (int i = 0; i <30 ; i++) {
-            buttons.get(i).setOnClickListener(this);
+        String[] alphabetet = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Æ", "Ø", "Å", ""};
+
+        int iter = 0;
+        buttons = new ArrayList<>();
+        for (int i = 0; i < 30; i++) {
+            Button button = new Button(this);
+            button.setOnClickListener(this);
+            button.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, pixels,1));
+            button.setText(alphabetet[i]);
+            button.setBackgroundResource(R.drawable.headstone);
+            buttons.add(button);
         }
+
+        LinearLayout linearLayout = findViewById(R.id.keyboard);
+        for (int i = 0; i < 5; i++) {
+            LinearLayout række = new LinearLayout(this);
+            række.setLayoutParams(new LinearLayout.LayoutParams
+                    (LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT));
+            for (int j = 0; j < 6; j++) {
+                række.addView(buttons.get(iter));
+                iter++;
+            }
+            linearLayout.addView(række);
+        }
+    }
+
+    public void onBackPressed(){
+        Intent start = new Intent(this,MainActivity.class);
+        this.finish();
+        startActivity(start);
     }
 
     @Override
     public void onClick(View view) {
-        //aktivirtet afsluttes hvis man trykker på returner knap
-        if(view==returnbut){
-            Intent start = new Intent(this,MainActivity.class);
-            this.finish();
-            startActivity(start);
-        }else{
+
 
             //kontroller vi om den tastede bogstav er korrekt
             Button trykket = null;
@@ -154,10 +118,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
             //vi afslutter spiller hvis det er slut eller vundet.
             if(logik.erSpilletSlut()){
-                if(logik.erSpilletTabt()) spilletSlutDialog(true);
-                if(logik.erSpilletVundet()) spilletSlutDialog(false);
+                if(logik.erSpilletTabt()) slutspilllet(false);
+                if(logik.erSpilletVundet()) slutspilllet(true);
             }
-        }
+
     }
 
     /**
@@ -213,38 +177,22 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    /**
-     * Når spillet er slut så kommer der en dialog der spørger om man vil fortsætte. Den nuværende aktivitet lukkes
-     * @param status
-     */
-    void spilletSlutDialog(boolean status){
-        String besked;
-        if(status) {
-            besked= "Du har tabt spillet!?!\nVil du spille igen?";
-        }else {
-            besked = "Du har vundet spillet!?!\nVil du spille igen?";
+   public void slutspilllet(boolean vundet){
+        if(vundet){
+            Intent win = new Intent(this,Vundet.class);
+            win.putExtra("antalforsøg",Integer.toString(logik.getAntalForkerteBogstaver()));
+            startActivity(win);
+            finish();
+        }
+        if(!vundet){
+            Intent lose = new Intent(this,Tabt.class);
+            lose.putExtra("ordet",logik.getOrdet());
+            startActivity(lose);
+            finish();
         }
 
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle(besked);
-        dialog.setPositiveButton("Ja", new AlertDialog.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1) {
-                Intent spilingen = new Intent(GameActivity.this,GameActivity.class);
-                startActivity(spilingen);
-                finish();
-            }
-        });
-        dialog.setNegativeButton("Nej", new AlertDialog.OnClickListener(){
-            public void onClick(DialogInterface arg0, int arg1) {
-                Intent spilingen = new Intent(GameActivity.this,MainActivity.class);
-                startActivity(spilingen);
-                finish();
-            }
-        });
-        dialog.show().getWindow().setBackgroundDrawable(new ColorDrawable(Color.rgb(135,147,154)) {
-        });
 
-    }
+   }
 
 
 }
