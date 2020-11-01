@@ -2,6 +2,7 @@ package com.example.volkangalge;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -23,8 +24,12 @@ public class Highscore extends AppCompatActivity {
         Gson gson = new Gson();
         SpillerScores scores = gson.fromJson(allescores,SpillerScores.class);
         listView=findViewById(R.id.scorelist);
-        ArrayAdapter adapter = new ArrayAdapter(this,R.layout.scores, R.id.spillernavn, scores.scores.);
-
-
+        MinAdapter minAdapter = new MinAdapter(this,scores);
+        listView.setAdapter(minAdapter);
+    }
+    public void onBackPressed(){
+        Intent start = new Intent(this,MainActivity.class);
+        this.finish();
+        startActivity(start);
     }
 }

@@ -39,4 +39,9 @@ public class Vundet extends AppCompatActivity implements View.OnClickListener {
         }
 
     }
+    public void onBackPressed(){
+        Intent start = new Intent(this,MainActivity.class);
+        this.finish();
+        startActivity(start);
+    }
 }

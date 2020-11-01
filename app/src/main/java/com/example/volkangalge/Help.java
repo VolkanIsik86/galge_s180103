@@ -27,4 +27,9 @@ public class Help extends AppCompatActivity implements View.OnClickListener {
             finish();
         }
     }
+    public void onBackPressed(){
+        Intent start = new Intent(this,MainActivity.class);
+        this.finish();
+        startActivity(start);
+    }
 }

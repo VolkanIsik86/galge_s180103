@@ -1,6 +1,6 @@
 package com.example.volkangalge.logik;
 
-public class Spiller {
+public class Spiller implements Comparable{
     String navn;
     int score;
 
@@ -22,5 +22,11 @@ public class Spiller {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        int score = ((Spiller) o).getScore();
+        return score - this.getScore();
     }
 }

@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button start, hjælp, afslut;
+    Button start, hjælp, afslut,highscore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +24,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         start = findViewById(R.id.start);
         hjælp = findViewById(R.id.hjælp);
         afslut = findViewById(R.id.afslut);
+        highscore = findViewById(R.id.Highgamescores);
+
 
         start.setOnClickListener(this);
         hjælp.setOnClickListener(this);
         afslut.setOnClickListener(this);
+        highscore.setOnClickListener(this);
 
     }
 
@@ -64,6 +67,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if(view == hjælp){
             Intent help = new Intent(this,Help.class);
             startActivity(help);
+            finish();
+        }else if(view==highscore){
+            Intent high = new Intent(this,Highscore.class);
+            startActivity(high);
             finish();
         }
 

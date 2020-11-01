@@ -53,6 +53,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         logik.nulstil();
         ord=findViewById(R.id.galgeord);
 
+        if(intent.getStringExtra("spillernavn")!=null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            prefs.edit().putString("spillernavn", intent.getStringExtra("spillernavn")).apply();
+        }
         //Henter ord fra dr fra bagrundstråd
         bgThread.execute(() -> {
             try{
@@ -186,11 +190,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
    public void slutspilllet(boolean vundet){
         if(vundet){
-            Spiller spiller = new Spiller(intent.getStringExtra("spillernavn"));
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+            Spiller spiller = new Spiller(prefs.getString("spillernavn","Noname"));
             spiller.setScore(logik.getOrdet().length()*(7-logik.getAntalForkerteBogstaver()));
 
 
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
             String allescores = prefs.getString("allescore","{\"scores\":[{\"navn\":\"noname\",\"score\":0}]}");
 
 
