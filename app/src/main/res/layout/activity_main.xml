@@ -7,64 +7,82 @@
     android:background="@drawable/opening"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="180dp"
-        android:layout_height="72dp"
-        android:layout_marginTop="40dp"
-        android:fontFamily="casual"
-        android:text="Galgeleg"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#FF5722"
-        android:textSize="36sp"
-        android:textStyle="bold|italic"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/start"
-        android:layout_width="100dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="100dp"
-        android:background="@drawable/headstone"
-        android:drawableTint="#FFFFFF"
-        android:fontFamily="casual"
-        android:text="Start"
-        android:textColor="#000000"
-        android:textSize="19sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
 
-    <Button
-        android:id="@+id/afslut"
-        android:layout_width="100dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/headstoneblody"
-        android:fontFamily="casual"
-        android:text="Afslut"
-        android:textSize="19sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hjælp" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="180dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:text="Galgeleg"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#FF5722"
+            android:textSize="36sp"
+            android:textStyle="bold|italic" />
 
-    <Button
-        android:id="@+id/hjælp"
-        android:layout_width="100dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/headstonegold"
-        android:fontFamily="casual"
-        android:text="Hjælp"
-        android:textSize="19sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+        <Button
+            android:id="@+id/start"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:background="@drawable/headstone"
+            android:drawableTint="#FFFFFF"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:text="Start"
+            android:textColor="#000000"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+        <Button
+            android:id="@+id/hjælp"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:background="@drawable/headstonegold"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:text="Hjælp"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+        <Button
+            android:id="@+id/afslut"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:background="@drawable/headstoneblody"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:text="Afslut"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:layout_gravity="center" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

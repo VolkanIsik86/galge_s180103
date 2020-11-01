@@ -8,12 +8,14 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +25,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.volkangalge.logik.Galgelogik;
+import com.example.volkangalge.logik.Spiller;
+import com.example.volkangalge.logik.SpillerScores;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
@@ -37,12 +42,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     String galgeordet;
     Executor bgThread = Executors.newSingleThreadExecutor(); // håndtag til en baggrundstråd
     Handler uiThread = new Handler(Looper.getMainLooper());  // håndtag til forgrundstråden
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
+        intent = getIntent();
         logik = new Galgelogik();
         logik.nulstil();
         ord=findViewById(R.id.galgeord);
@@ -81,6 +87,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             button.setBackgroundResource(R.drawable.headstone);
             buttons.add(button);
         }
+        buttons.get(29).setVisibility(View.INVISIBLE);
 
         LinearLayout linearLayout = findViewById(R.id.keyboard);
         for (int i = 0; i < 5; i++) {
@@ -179,6 +186,21 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
    public void slutspilllet(boolean vundet){
         if(vundet){
+            Spiller spiller = new Spiller(intent.getStringExtra("spillernavn"));
+            spiller.setScore(logik.getOrdet().length()*(7-logik.getAntalForkerteBogstaver()));
+
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String allescores = prefs.getString("allescore","{\"scores\":[{\"navn\":\"noname\",\"score\":0}]}");
+
+
+            Gson gson = new Gson();
+            SpillerScores scores = gson.fromJson(allescores,SpillerScores.class);
+            scores.scores.add(spiller);
+            allescores = gson.toJson(scores);
+            prefs.edit().putString("allescore",allescores).apply();
+
+
             Intent win = new Intent(this,Vundet.class);
             win.putExtra("antalforsøg",Integer.toString(logik.getAntalForkerteBogstaver()));
             startActivity(win);
