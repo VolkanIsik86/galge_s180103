@@ -20,12 +20,14 @@ public class Highscore extends AppCompatActivity {
         setContentView(R.layout.activity_highscore);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String allescores = prefs.getString("allescore","{\"scores\":[{\"navn\":\"noname\",\"score\":0}]}");
-        Gson gson = new Gson();
-        SpillerScores scores = gson.fromJson(allescores,SpillerScores.class);
-        listView=findViewById(R.id.scorelist);
-        MinAdapter minAdapter = new MinAdapter(this,scores);
-        listView.setAdapter(minAdapter);
+        String allescores = prefs.getString("allescore","ingen score");
+        if(!allescores.equals("ingen score")){
+            Gson gson = new Gson();
+            SpillerScores scores = gson.fromJson(allescores,SpillerScores.class);
+            listView=findViewById(R.id.scorelist);
+            MinAdapter minAdapter = new MinAdapter(this,scores);
+            listView.setAdapter(minAdapter);
+        }
     }
     public void onBackPressed(){
         Intent start = new Intent(this,MainActivity.class);

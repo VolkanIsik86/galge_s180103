@@ -34,7 +34,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener {
-    Button a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, æ, ø, å, returnbut;
     Galgelogik logik;
     TextView ord;
     ImageView biledet;
@@ -198,11 +197,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-            String allescores = prefs.getString("allescore","{\"scores\":[{\"navn\":\"noname\",\"score\":0}]}");
-
+            String allescores = prefs.getString("allescore","ingen score");
 
             Gson gson = new Gson();
-            SpillerScores scores = gson.fromJson(allescores,SpillerScores.class);
+            SpillerScores scores;
+            if(allescores.equals("ingen score")) {
+                scores = new SpillerScores();
+            } else {
+                scores = gson.fromJson(allescores, SpillerScores.class);
+            }
             scores.scores.add(spiller);
             allescores = gson.toJson(scores);
             prefs.edit().putString("allescore",allescores).apply();
