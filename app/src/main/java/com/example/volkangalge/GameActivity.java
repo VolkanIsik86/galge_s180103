@@ -2,7 +2,6 @@ package com.example.volkangalge;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.example.volkangalge.logik.Galgelogik;
+import com.example.volkangalge.logik.HardOrd;
 import com.example.volkangalge.logik.HentFraArk;
 import com.example.volkangalge.logik.HighscoreIO;
 import com.example.volkangalge.logik.NemOrd;
@@ -27,22 +27,24 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     TextView ord;
     ImageView biledet;
     ArrayList<Button> buttons;
-    String galgeordet;
     Executor bgThread = Executors.newSingleThreadExecutor(); // håndtag til en baggrundstråd
     Handler uiThread = new Handler(Looper.getMainLooper());  // håndtag til forgrundstråden
     Intent intent;
+    Ord spilordnem,spilordsvær;
+    String difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         intent = getIntent();
+        difficulty = intent.getStringExtra("difficulty");
         HentFraArk hentFraArk = new HentFraArk();
-        Ord spilord;
-        spilord=new NemOrd();
-        hentFraArk.registrer(spilord);
-       // logik = new Galgelogik();
-       // logik.nulstil();
+        spilordnem = new NemOrd();
+        spilordsvær= new HardOrd();
+        hentFraArk.registrer(spilordnem);
+        hentFraArk.registrer(spilordsvær);
+
         ord=findViewById(R.id.galgeord);
 
         if(intent.getStringExtra("spillernavn")!=null) {
@@ -53,14 +55,21 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             try{
 
                 hentFraArk.hentOrdGoogle("12");
-                logik = new Galgelogik(spilord.randomOrd());
+                if(difficulty.equals("easy"))
+                logik = new Galgelogik(spilordnem.randomOrd());
+                else if (difficulty.equals("hard"))
+                    logik = new Galgelogik(spilordsvær.randomOrd());
+
                 uiThread.post(() -> {
                     ord.setText(logik.getSynligtOrd());
                 });
 
             }catch (Exception e){
                 e.printStackTrace();
-                logik = new Galgelogik(spilord.randomOrd());
+                if(difficulty.equals("easy"))
+                    logik = new Galgelogik(spilordnem.randomOrd());
+                else if (difficulty.equals("hard"))
+                    logik = new Galgelogik(spilordsvær.randomOrd());
                 uiThread.post(() -> {
                     ord.setText(logik.getSynligtOrd());
                 });

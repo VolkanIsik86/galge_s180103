@@ -29,6 +29,7 @@ public class NemOrd implements Ord {
     @Override
     public void update(ArrayList<String> muligeord) {
         for (int i = 0; i <muligeord.size() ; i++) {
+            if(muligeord.get(i).length()>=6)
             nemmeOrd.add(muligeord.get(i));
         }
     }

@@ -86,12 +86,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (item.getItemId()){
             case R.id.hard: {
                 Intent start = new Intent(MainActivity.this, GameActivity.class);
+                start.putExtra("difficulty","hard");
                 startActivity(start);
                 finish();
                 return true;
             }
             case R.id.easy: {
                 Intent start = new Intent(MainActivity.this, GameActivity.class);
+                start.putExtra("difficulty","easy");
                 startActivity(start);
                 finish();
                 return true;
