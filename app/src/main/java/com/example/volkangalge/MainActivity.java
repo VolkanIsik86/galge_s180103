@@ -7,15 +7,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
-import com.example.volkangalge.logik.HighscoreIO;
+import com.example.volkangalge.logik.DataIO;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
@@ -52,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dialog.setView(et);
             dialog.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
                 public void onClick(DialogInterface arg0, int arg1) {
-                    HighscoreIO.getInstance().saveName(et.getText().toString(),MainActivity.this);
+                    DataIO.getInstance().saveName(et.getText().toString(),MainActivity.this);
                     showPopup(view);
                 }
             });
@@ -86,14 +84,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (item.getItemId()){
             case R.id.hard: {
                 Intent start = new Intent(MainActivity.this, GameActivity.class);
-                start.putExtra("difficulty","hard");
+                DataIO.getInstance().saveDifficulty("hard",this);
                 startActivity(start);
                 finish();
                 return true;
             }
             case R.id.easy: {
                 Intent start = new Intent(MainActivity.this, GameActivity.class);
-                start.putExtra("difficulty","easy");
+                DataIO.getInstance().saveDifficulty("easy",this);
                 startActivity(start);
                 finish();
                 return true;

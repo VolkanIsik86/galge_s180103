@@ -4,23 +4,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.example.volkangalge.MinAdapter;
-import com.example.volkangalge.R;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
+public class DataIO {
 
-public class HighscoreIO {
+    public static DataIO dataIO;
 
-    public static HighscoreIO highscoreIO;
+    private DataIO(){};
 
-    private HighscoreIO(){};
-
-    public static HighscoreIO getInstance(){
-        if(highscoreIO==null){
-            highscoreIO=new HighscoreIO();
+    public static DataIO getInstance(){
+        if(dataIO ==null){
+            dataIO =new DataIO();
         }
-        return highscoreIO;
+        return dataIO;
     }
 
     public void saveScore(Spiller spiller,Context context){
@@ -62,4 +58,17 @@ public class HighscoreIO {
         name = prefs.getString("spillernavn","Noname");
         return name;
     }
+
+    public void saveDifficulty(String difficulty, Context context){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs.edit().putString("difficulty", difficulty).apply();
+    }
+
+    public String readDifficulty(Context context){
+        String difficulty = null;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        difficulty = prefs.getString("difficulty","Nodifficulty");
+        return difficulty;
+    }
+
 }

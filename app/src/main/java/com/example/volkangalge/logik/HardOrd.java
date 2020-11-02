@@ -10,14 +10,10 @@ public class HardOrd implements Ord {
     public HardOrd() {
         hardOrd = new ArrayList<>();
         hardOrd.add("bil");
-        hardOrd.add("computer");
-        hardOrd.add("programmering");
-        hardOrd.add("motorvej");
-        hardOrd.add("busrute");
-        hardOrd.add("gangsti");
-        hardOrd.add("skovsnegl");
-        hardOrd.add("solsort");
-        hardOrd.add("nitten");
+        hardOrd.add("hest");
+        hardOrd.add("sko");
+        hardOrd.add("løve");
+        hardOrd.add("router");
     }
     @Override
     public String randomOrd() {

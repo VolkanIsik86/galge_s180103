@@ -3,15 +3,11 @@ package com.example.volkangalge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.volkangalge.logik.HighscoreIO;
+import com.example.volkangalge.logik.DataIO;
 import com.example.volkangalge.logik.SpillerScores;
-import com.google.gson.Gson;
 
 public class Highscore extends AppCompatActivity {
     ListView listView;
@@ -20,7 +16,7 @@ public class Highscore extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_highscore);
 
-        SpillerScores spillerScores = HighscoreIO.getInstance().readScore(this);
+        SpillerScores spillerScores = DataIO.getInstance().readScore(this);
         if(spillerScores!=null){
             listView=findViewById(R.id.scorelist);
             MinAdapter minAdapter = new MinAdapter(this,spillerScores);

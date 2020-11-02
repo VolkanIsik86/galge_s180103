@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.example.volkangalge.logik.Galgelogik;
 import com.example.volkangalge.logik.HardOrd;
 import com.example.volkangalge.logik.HentFraArk;
-import com.example.volkangalge.logik.HighscoreIO;
+import com.example.volkangalge.logik.DataIO;
 import com.example.volkangalge.logik.NemOrd;
 import com.example.volkangalge.logik.Ord;
 import com.example.volkangalge.logik.Spiller;
@@ -38,7 +38,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         intent = getIntent();
-        difficulty = intent.getStringExtra("difficulty");
+        difficulty = DataIO.getInstance().readDifficulty(this);
         HentFraArk hentFraArk = new HentFraArk();
         spilordnem = new NemOrd();
         spilordsvær= new HardOrd();
@@ -48,7 +48,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         ord=findViewById(R.id.galgeord);
 
         if(intent.getStringExtra("spillernavn")!=null) {
-            HighscoreIO.getInstance().saveName(intent.getStringExtra("spillernavn"),this);
+            DataIO.getInstance().saveName(intent.getStringExtra("spillernavn"),this);
         }
         //Henter ord fra dr fra bagrundstråd
         bgThread.execute(() -> {
@@ -195,10 +195,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
    public void slutspilllet(boolean vundet){
         if(vundet){
 
-            Spiller spiller = new Spiller(HighscoreIO.getInstance().readName(this));
+            Spiller spiller = new Spiller(DataIO.getInstance().readName(this));
             spiller.setScore(logik.getOrdet().length()*(7-logik.getAntalForkerteBogstaver()));
 
-            HighscoreIO.getInstance().saveScore(spiller,this);
+            DataIO.getInstance().saveScore(spiller,this);
 
             Intent win = new Intent(this,Vundet.class);
             win.putExtra("antalforsøg",Integer.toString(logik.getAntalForkerteBogstaver()));

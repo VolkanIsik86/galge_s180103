@@ -8,7 +8,6 @@ public class NemOrd implements Ord {
 
     public NemOrd() {
         nemmeOrd = new ArrayList<>();
-        nemmeOrd.add("bil");
         nemmeOrd.add("computer");
         nemmeOrd.add("programmering");
         nemmeOrd.add("motorvej");
