@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.volkangalge.logik.HighscoreIO;
 import com.example.volkangalge.logik.SpillerScores;
 import com.google.gson.Gson;
 
@@ -19,13 +20,11 @@ public class Highscore extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_highscore);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String allescores = prefs.getString("allescore","ingen score");
-        if(!allescores.equals("ingen score")){
-            Gson gson = new Gson();
-            SpillerScores scores = gson.fromJson(allescores,SpillerScores.class);
+        HighscoreIO highscoreIO = HighscoreIO.getInstance();
+        SpillerScores spillerScores = highscoreIO.readScore(this);
+        if(spillerScores!=null){
             listView=findViewById(R.id.scorelist);
-            MinAdapter minAdapter = new MinAdapter(this,scores);
+            MinAdapter minAdapter = new MinAdapter(this,spillerScores);
             listView.setAdapter(minAdapter);
         }
     }
