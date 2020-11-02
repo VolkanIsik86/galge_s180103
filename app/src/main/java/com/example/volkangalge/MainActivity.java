@@ -5,14 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import com.example.volkangalge.logik.HighscoreIO;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
     Button start, hjælp, afslut,highscore;
 
@@ -39,25 +44,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //starter gameActivity som er selve spillet
         if(view==start){
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this,R.style.CustomDialogTheme);
             dialog.setTitle("Spiller:");
             EditText et = new EditText(this);
+            et.setTextColor(Color.parseColor("#CCFFFFFF"));
             et.setText("");
             dialog.setView(et);
             dialog.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
                 public void onClick(DialogInterface arg0, int arg1) {
-                    Intent start = new Intent(MainActivity.this,GameActivity.class);
-                    start.putExtra("spillernavn",et.getText().toString());
-                    startActivity(start);
-                    finish();
+                    HighscoreIO.getInstance().saveName(et.getText().toString(),MainActivity.this);
+                    showPopup(view);
                 }
             });
             dialog.setNegativeButton("Annullere", null);
             dialog.show();
-
-
-
-
 
         //Afslutter applicationnen
         } else if (view == afslut){
@@ -74,5 +74,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             finish();
         }
 
+    }
+    public void showPopup(View v){
+        PopupMenu popupMenu = new PopupMenu(this,v);
+        popupMenu.setOnMenuItemClickListener(this);
+        popupMenu.inflate(R.menu.popup);
+        popupMenu.show();
+    }
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.hard: {
+                Intent start = new Intent(MainActivity.this, GameActivity.class);
+                startActivity(start);
+                finish();
+                return true;
+            }
+            case R.id.easy: {
+                Intent start = new Intent(MainActivity.this, GameActivity.class);
+                startActivity(start);
+                finish();
+                return true;
+            }
+            default:
+                return false;
+
+        }
     }
 }

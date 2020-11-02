@@ -1,35 +1,23 @@
 package com.example.volkangalge;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.volkangalge.logik.Galgelogik;
+import com.example.volkangalge.logik.HentFraArk;
 import com.example.volkangalge.logik.HighscoreIO;
+import com.example.volkangalge.logik.NemOrd;
+import com.example.volkangalge.logik.Ord;
 import com.example.volkangalge.logik.Spiller;
-import com.example.volkangalge.logik.SpillerScores;
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -49,8 +37,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         intent = getIntent();
-        logik = new Galgelogik();
-        logik.nulstil();
+        HentFraArk hentFraArk = new HentFraArk();
+        Ord spilord;
+        spilord=new NemOrd();
+        hentFraArk.registrer(spilord);
+       // logik = new Galgelogik();
+       // logik.nulstil();
         ord=findViewById(R.id.galgeord);
 
         if(intent.getStringExtra("spillernavn")!=null) {
@@ -59,15 +51,18 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         //Henter ord fra dr fra bagrundstråd
         bgThread.execute(() -> {
             try{
-                logik.hentOrdFraRegneark("12");
+
+                hentFraArk.hentOrdGoogle("12");
+                logik = new Galgelogik(spilord.randomOrd());
                 uiThread.post(() -> {
                     ord.setText(logik.getSynligtOrd());
                 });
 
             }catch (Exception e){
                 e.printStackTrace();
+                logik = new Galgelogik(spilord.randomOrd());
                 uiThread.post(() -> {
-                    ord.setText("Der opstod en fejl ved hentning af ordet");
+                    ord.setText(logik.getSynligtOrd());
                 });
             }
         });
@@ -88,6 +83,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             button.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, pixels,1));
             button.setText(alphabetet[i]);
             button.setBackgroundResource(R.drawable.headstone);
+            button.setTextColor(Color.parseColor("#303030"));
             buttons.add(button);
         }
         buttons.get(29).setVisibility(View.INVISIBLE);
