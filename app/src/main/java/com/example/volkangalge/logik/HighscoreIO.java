@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class HighscoreIO {
 
     public static HighscoreIO highscoreIO;
+
     private HighscoreIO(){};
 
     public static HighscoreIO getInstance(){
@@ -22,7 +23,21 @@ public class HighscoreIO {
         return highscoreIO;
     }
 
-    public void saveScore(SpillerScores spillerScores){}
+    public void saveScore(Spiller spiller,Context context){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String allescores = prefs.getString("allescore","ingen score");
+
+        Gson gson = new Gson();
+        SpillerScores scores;
+        if(allescores.equals("ingen score")) {
+            scores = new SpillerScores();
+        } else {
+            scores = gson.fromJson(allescores, SpillerScores.class);
+        }
+        scores.scores.add(spiller);
+        allescores = gson.toJson(scores);
+        prefs.edit().putString("allescore",allescores).apply();
+    }
 
 
     public SpillerScores readScore(Context context){
@@ -34,5 +49,17 @@ public class HighscoreIO {
             scores = gson.fromJson(allescores,SpillerScores.class);
         }
         return scores;
+    }
+
+    public void saveName(String name, Context context){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs.edit().putString("spillernavn", name).apply();
+    }
+
+    public String readName(Context context){
+        String name = null;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        name = prefs.getString("spillernavn","Noname");
+        return name;
     }
 }

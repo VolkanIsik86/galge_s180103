@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.volkangalge.logik.Galgelogik;
+import com.example.volkangalge.logik.HighscoreIO;
 import com.example.volkangalge.logik.Spiller;
 import com.example.volkangalge.logik.SpillerScores;
 import com.google.gson.Gson;
@@ -53,8 +54,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         ord=findViewById(R.id.galgeord);
 
         if(intent.getStringExtra("spillernavn")!=null) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            prefs.edit().putString("spillernavn", intent.getStringExtra("spillernavn")).apply();
+            HighscoreIO.getInstance().saveName(intent.getStringExtra("spillernavn"),this);
         }
         //Henter ord fra dr fra bagrundstråd
         bgThread.execute(() -> {
@@ -190,26 +190,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
    public void slutspilllet(boolean vundet){
         if(vundet){
 
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-            Spiller spiller = new Spiller(prefs.getString("spillernavn","Noname"));
+            Spiller spiller = new Spiller(HighscoreIO.getInstance().readName(this));
             spiller.setScore(logik.getOrdet().length()*(7-logik.getAntalForkerteBogstaver()));
 
-
-
-            String allescores = prefs.getString("allescore","ingen score");
-
-            Gson gson = new Gson();
-            SpillerScores scores;
-            if(allescores.equals("ingen score")) {
-                scores = new SpillerScores();
-            } else {
-                scores = gson.fromJson(allescores, SpillerScores.class);
-            }
-            scores.scores.add(spiller);
-            allescores = gson.toJson(scores);
-            prefs.edit().putString("allescore",allescores).apply();
-
+            HighscoreIO.getInstance().saveScore(spiller,this);
 
             Intent win = new Intent(this,Vundet.class);
             win.putExtra("antalforsøg",Integer.toString(logik.getAntalForkerteBogstaver()));
@@ -223,8 +207,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             finish();
         }
 
-
    }
-
 
 }

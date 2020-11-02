@@ -20,8 +20,7 @@ public class Highscore extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_highscore);
 
-        HighscoreIO highscoreIO = HighscoreIO.getInstance();
-        SpillerScores spillerScores = highscoreIO.readScore(this);
+        SpillerScores spillerScores = HighscoreIO.getInstance().readScore(this);
         if(spillerScores!=null){
             listView=findViewById(R.id.scorelist);
             MinAdapter minAdapter = new MinAdapter(this,spillerScores);
