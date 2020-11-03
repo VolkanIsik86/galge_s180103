@@ -27,6 +27,7 @@
         android:layout_marginTop="45dp"
         android:background="@drawable/headstone"
         android:text="A"
+        android:textColor="#303030"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -38,6 +39,7 @@
         android:layout_marginTop="32dp"
         android:background="@drawable/headstonegold"
         android:text="A"
+        android:textColor="#303030"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button3" />
 
@@ -49,6 +51,7 @@
         android:layout_marginTop="23dp"
         android:background="@drawable/headstonegreen"
         android:text="A"
+        android:textColor="#303030"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
 

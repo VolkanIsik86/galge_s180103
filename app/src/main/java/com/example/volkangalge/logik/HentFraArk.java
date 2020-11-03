@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class HentFraArk implements HentFranet {
+public class HentFraArk implements HentOrd,HentFraNet {
     ArrayList<Ord> ordArrayList;
 
     public HentFraArk() {
