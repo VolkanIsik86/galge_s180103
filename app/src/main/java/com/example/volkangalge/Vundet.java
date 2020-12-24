@@ -49,4 +49,10 @@ public class Vundet extends AppCompatActivity implements View.OnClickListener {
         this.finish();
         startActivity(start);
     }
+    @Override
+    public void onDestroy() {
+        vundet.stop();
+        vundet.release();
+        super.onDestroy();
+    }
 }

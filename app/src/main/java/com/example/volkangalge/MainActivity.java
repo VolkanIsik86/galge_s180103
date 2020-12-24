@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.example.volkangalge.logik.DataIO;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
     Button start, hjælp, afslut,highscore;
+    MediaPlayer intro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         afslut = findViewById(R.id.afslut);
         highscore = findViewById(R.id.Highgamescores);
 
+        intro = MediaPlayer.create(this,R.raw.intro);
+        intro.setVolume(1,1);
+        intro.start();
 
         start.setOnClickListener(this);
         hjælp.setOnClickListener(this);
@@ -100,5 +105,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return false;
 
         }
+    }
+    @Override
+    public void onDestroy() {
+        intro.stop();
+        intro.release();
+        super.onDestroy();
     }
 }

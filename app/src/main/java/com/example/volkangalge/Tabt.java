@@ -47,4 +47,10 @@ public class Tabt extends AppCompatActivity implements View.OnClickListener {
         this.finish();
         startActivity(start);
     }
+    @Override
+    public void onDestroy() {
+        tabt.stop();
+        tabt.release();
+        super.onDestroy();
+    }
 }

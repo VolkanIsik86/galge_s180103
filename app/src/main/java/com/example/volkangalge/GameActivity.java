@@ -233,5 +233,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
 
    }
+    @Override
+    public void onDestroy() {
+        pain.stop();
+        pain.release();
+        good.stop();
+        good.release();
+        die.stop();
+        die.release();
+        super.onDestroy();
+    }
 
 }
