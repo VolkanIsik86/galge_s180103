@@ -3,6 +3,7 @@ package com.example.volkangalge;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -32,6 +33,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     Intent intent;
     Ord spilordnem,spilordsvær;
     String difficulty;
+    MediaPlayer pain,good,die;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         spilordsvær= new HardOrd();
         hentFraArk.registrer(spilordnem);
         hentFraArk.registrer(spilordsvær);
+
+        pain = MediaPlayer.create(this,R.raw.pain);
+        pain.setVolume(1,1);
+        good = MediaPlayer.create(this,R.raw.goodclick);
+        good.setVolume(1,1);
+        die = MediaPlayer.create(this,R.raw.die);
+        die.setVolume(1,1);
+
 
         ord=findViewById(R.id.galgeord);
 
@@ -133,7 +143,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
             //vi afslutter spiller hvis det er slut eller vundet.
             if(logik.erSpilletSlut()){
-                if(logik.erSpilletTabt()) slutspilllet(false);
+                if(logik.erSpilletTabt()){
+                    die.start();
+                    slutspilllet(false);
+                }
                 if(logik.erSpilletVundet()) slutspilllet(true);
             }
 
@@ -152,6 +165,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             ord.setText(logik.getSynligtOrd());
             knap.setClickable(false);
             knap.setBackgroundResource(R.drawable.headstonegreen);
+            good.start();
         }
 
         }
@@ -167,26 +181,32 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             case 1:
                 biledet.setImageResource(R.drawable.forkert1);
                 knap.setBackgroundResource(R.drawable.headstonegold);
+                pain.start();
                 break;
             case 2:
                 biledet.setImageResource(R.drawable.forkert2);
                 knap.setBackgroundResource(R.drawable.headstonegold);
+                pain.start();
                 break;
             case 3:
                 biledet.setImageResource(R.drawable.forkert3);
                 knap.setBackgroundResource(R.drawable.headstonegold);
+                pain.start();
                 break;
             case 4:
                 biledet.setImageResource(R.drawable.forkert4);
                 knap.setBackgroundResource(R.drawable.headstonegold);
+                pain.start();
                 break;
             case 5:
                 biledet.setImageResource(R.drawable.forkert5);
                 knap.setBackgroundResource(R.drawable.headstonegold);
+                pain.start();
                 break;
             case 6:
                 biledet.setImageResource(R.drawable.forkert6);
                 knap.setBackgroundResource(R.drawable.headstonegold);
+                pain.start();
                 break;
         }
 
