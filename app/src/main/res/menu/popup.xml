@@ -3,9 +3,10 @@
 
     <item
         android:id="@+id/easy"
-
         android:title="Nem"></item>
     <item android:id="@+id/hard"
         android:title="Svær"></item>
+    <item android:id="@+id/valg"
+        android:title="Vælg et Ord"></item>
 
 </menu>

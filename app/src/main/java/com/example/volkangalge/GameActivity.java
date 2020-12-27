@@ -28,8 +28,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     TextView ord;
     ImageView biledet;
     ArrayList<Button> buttons;
-    Executor bgThread = Executors.newSingleThreadExecutor(); // håndtag til en baggrundstråd
-    Handler uiThread = new Handler(Looper.getMainLooper());  // håndtag til forgrundstråden
     Intent intent;
     Ord spilordnem,spilordsvær;
     String difficulty;
@@ -41,9 +39,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_game);
         intent = getIntent();
         difficulty = DataIO.getInstance().readDifficulty(this);
-        HentFraArk hentFraArk = new HentFraArk();
+        HentFraArk hentFraArk = HentFraArk.getInstance();
         spilordnem = new NemOrd();
         spilordsvær= new HardOrd();
+
         hentFraArk.registrer(spilordnem);
         hentFraArk.registrer(spilordsvær);
 
@@ -60,31 +59,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if(intent.getStringExtra("spillernavn")!=null) {
             DataIO.getInstance().saveName(intent.getStringExtra("spillernavn"),this);
         }
-        //Henter ord fra dr fra bagrundstråd
-        bgThread.execute(() -> {
-            try{
 
-                hentFraArk.hentOrdGoogle("12");
-                if(difficulty.equals("easy"))
-                logik = new Galgelogik(spilordnem.randomOrd());
-                else if (difficulty.equals("hard"))
-                    logik = new Galgelogik(spilordsvær.randomOrd());
-
-                uiThread.post(() -> {
-                    ord.setText(logik.getSynligtOrd());
-                });
-
-            }catch (Exception e){
-                e.printStackTrace();
                 if(difficulty.equals("easy"))
                     logik = new Galgelogik(spilordnem.randomOrd());
                 else if (difficulty.equals("hard"))
                     logik = new Galgelogik(spilordsvær.randomOrd());
-                uiThread.post(() -> {
-                    ord.setText(logik.getSynligtOrd());
-                });
-            }
-        });
+                else if(difficulty.equals("valgord")) {
+                    String spilleOrdet = intent.getStringExtra("ordet");
+                    logik = new Galgelogik(spilleOrdet);
+                }
+                ord.setText(logik.getSynligtOrd());
+
 
         biledet = findViewById(R.id.billedet);
         buttons = new ArrayList<>();

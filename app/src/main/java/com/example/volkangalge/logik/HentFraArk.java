@@ -8,9 +8,18 @@ import java.util.ArrayList;
 
 public class HentFraArk implements HentOrd,HentFraNet {
     ArrayList<Ord> ordArrayList;
+    ArrayList<String> alleOrd;
+    public static HentFraArk hentFraArk;
 
-    public HentFraArk() {
+    private HentFraArk() {
         this.ordArrayList = new ArrayList<>();
+    }
+
+    public static HentFraArk getInstance(){
+        if(hentFraArk == null){
+            hentFraArk = new HentFraArk();
+        }
+        return hentFraArk;
     }
 
     @Override
@@ -29,6 +38,14 @@ public class HentFraArk implements HentOrd,HentFraNet {
             ordArrayList.get(i).update(nyeOrd);
         }
 
+    }
+
+    public ArrayList<String> getAlleOrd() {
+        return alleOrd;
+    }
+
+    public void setAlleOrd(ArrayList<String> alleOrd) {
+        this.alleOrd = alleOrd;
     }
 
     @Override
@@ -75,7 +92,7 @@ public class HentFraArk implements HentOrd,HentFraNet {
         }
 
         System.out.println("muligeOrd = " + muligeOrd);
-        opdaterOrd(muligeOrd);
+        alleOrd = muligeOrd;
     }
 
 }

@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.volkangalge.logik.DataIO;
+
 public class Vundet extends AppCompatActivity implements View.OnClickListener {
     TextView antalforsøg;
     Button ja,nej;
@@ -33,9 +35,15 @@ public class Vundet extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v==ja){
+            if(DataIO.getInstance().readDifficulty(this).equals("valgord")){
+                Intent start = new Intent(this,ValgOrdActivity.class);
+                startActivity(start);
+                finish();
+            }else {
             Intent start = new Intent(this,GameActivity.class);
             startActivity(start);
             finish();
+            }
         }
         if(v==nej){
             Intent hovedmenu = new Intent(this,MainActivity.class);

@@ -3,23 +3,40 @@ package com.example.volkangalge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.example.volkangalge.logik.DataIO;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import com.example.volkangalge.logik.Galgelogik;
+import com.example.volkangalge.logik.HentFraArk;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
     Button start, hjælp, afslut,highscore;
     MediaPlayer intro;
+    Executor bgThread = Executors.newSingleThreadExecutor(); // håndtag til en baggrundstråd
+    Handler uiThread = new Handler(Looper.getMainLooper());  // håndtag til forgrundstråden
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +73,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dialog.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
                 public void onClick(DialogInterface arg0, int arg1) {
                     DataIO.getInstance().saveName(et.getText().toString(),MainActivity.this);
-                    showPopup(view);
+
+                    ProgressDialog dialog = new ProgressDialog(MainActivity.this,R.style.CustomDialogTheme);
+                    dialog.setIndeterminate(true); // drejende hjul
+                    dialog.setTitle("Ord Hentes");
+                    dialog.setMessage("Vent venligst");
+                    dialog.show();
+
+                    //Henter ord fra dr fra bagrundstråd
+                    bgThread.execute(() -> {
+                        try{
+
+                            HentFraArk.getInstance().hentOrdGoogle("12");
+
+                            uiThread.post(() -> {
+                                dialog.dismiss();
+                                showPopup(view);
+                            });
+
+                        }catch (Exception e){
+                            e.printStackTrace();
+                            uiThread.post(() -> {
+                                showPopup(view);
+                            });
+                        }
+                    });
+
                 }
             });
             dialog.setNegativeButton("Annullere", null);
@@ -97,6 +139,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.easy: {
                 Intent start = new Intent(MainActivity.this, GameActivity.class);
                 DataIO.getInstance().saveDifficulty("easy",this);
+                startActivity(start);
+                finish();
+                return true;
+            }
+            case R.id.valg: {
+                Intent start = new Intent(MainActivity.this,ValgOrdActivity.class);
+                DataIO.getInstance().saveDifficulty("valgord",this);
                 startActivity(start);
                 finish();
                 return true;
