@@ -129,7 +129,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             //vi afslutter spiller hvis det er slut eller vundet.
             if(logik.erSpilletSlut()){
                 if(logik.erSpilletTabt()){
-                    die.start();
+                 //   die.start();
                     slutspilllet(false);
                 }
                 if(logik.erSpilletVundet()) slutspilllet(true);

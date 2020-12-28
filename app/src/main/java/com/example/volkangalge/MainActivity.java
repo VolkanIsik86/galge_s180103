@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
@@ -51,11 +52,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intro = MediaPlayer.create(this,R.raw.intro);
         intro.setVolume(1,1);
         intro.start();
-
         start.setOnClickListener(this);
         hjælp.setOnClickListener(this);
         afslut.setOnClickListener(this);
         highscore.setOnClickListener(this);
+
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
 
     }
 
