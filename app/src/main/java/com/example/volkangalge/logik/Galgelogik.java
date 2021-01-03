@@ -1,16 +1,12 @@
 package com.example.volkangalge.logik;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Random;
 
+/**
+ * Selve logikken til at gætte et ord i spillet
+ */
 public class Galgelogik {
-  /** AHT afprøvning er muligeOrd synlig på pakkeniveau */
+
   ArrayList<String> muligeOrd = new ArrayList<String>();
   private String ordet;
   private ArrayList<String> brugteBogstaver = new ArrayList<String>();
@@ -58,7 +54,9 @@ public class Galgelogik {
     return spilletErTabt || spilletErVundet;
   }
 
-
+  /**
+   * Nulstiller den ord der spilles
+   */
   public void nulstil() {
     brugteBogstaver.clear();
     antalForkerteBogstaver = 0;
@@ -67,7 +65,9 @@ public class Galgelogik {
     opdaterSynligtOrd();
   }
 
-
+  /**
+   * Opdater spille ordet (gør den synlig ve rigtig gæt)
+   */
   private void opdaterSynligtOrd() {
     synligtOrd = "";
     spilletErVundet = true;
@@ -82,6 +82,10 @@ public class Galgelogik {
     }
   }
 
+  /**
+   * Gætter ordet med en given bogstav
+   * @param bogstav Bogstavet som spilleren vælger
+   */
   public void gætBogstav(String bogstav) {
     if (bogstav.length() != 1) return;
     System.out.println("Der gættes på bogstavet: " + bogstav);
@@ -105,6 +109,9 @@ public class Galgelogik {
     opdaterSynligtOrd();
   }
 
+  /**
+   * Log status skrefter
+   */
   public void logStatus() {
     System.out.println("---------- ");
     System.out.println("- ordet (skult) = " + ordet);

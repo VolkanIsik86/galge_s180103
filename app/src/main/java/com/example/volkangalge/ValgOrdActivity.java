@@ -16,6 +16,9 @@ import android.widget.Toast;
 import com.example.volkangalge.logik.HentFraArk;
 import com.example.volkangalge.logik.ValgtOrd;
 
+/**
+ * Liste af ord som man kan vælge for at starte spillet
+ */
 public class ValgOrdActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     @Override
@@ -23,7 +26,8 @@ public class ValgOrdActivity extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_valg_ord);
 
-// https://developer.android.com/training/monitoring-device-state/connectivity-status-type
+        // Der bliver foretaget kontrol om man har tilsluttet sig på nettet.
+        // https://developer.android.com/training/monitoring-device-state/connectivity-status-type
         ConnectivityManager cm =
                 (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -31,6 +35,10 @@ public class ValgOrdActivity extends AppCompatActivity implements AdapterView.On
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
 
+        /**
+         * Indbyget array adapter bruges til at vise ord.
+         * Listen afhængig af om man har tilsluttet sig på nettet eller ej.
+         */
         ArrayAdapter adapter;
         if(isConnected) {
             adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1,
@@ -45,6 +53,14 @@ public class ValgOrdActivity extends AppCompatActivity implements AdapterView.On
         listView.setOnItemClickListener(this);
         listView.setAdapter(adapter);
     }
+
+    /**
+     * Spillet startes med den valgte ord
+     * @param liste liste af ord
+     * @param v view man har trykket
+     * @param position positionen af knappen man har trykket
+     * @param id selv id viewet man har trykket
+     */
     public void onItemClick(AdapterView<?> liste, View v, int position, long id) {
        // Toast.makeText(this, "Klik på " + liste.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
         String ordvalgt = liste.getItemAtPosition(position).toString();

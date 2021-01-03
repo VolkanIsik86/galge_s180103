@@ -24,6 +24,11 @@ public class Spiller implements Comparable{
         this.score = score;
     }
 
+    /**
+     * Sammenligner de forskellige spiller i forhold til deres point
+     * @param o spiller
+     * @return returnerer forskellen
+     */
     @Override
     public int compareTo(Object o) {
         int score = ((Spiller) o).getScore();

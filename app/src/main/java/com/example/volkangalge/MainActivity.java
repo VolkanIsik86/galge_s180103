@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//3 knapper initaliseres til hovedmenu. Spillet starter fra start knappen.
+//4 knapper initaliseres til hovedmenu. Spillet starter fra start knappen.
         start = findViewById(R.id.start);
         hjælp = findViewById(R.id.hjælp);
         afslut = findViewById(R.id.afslut);
@@ -78,13 +78,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onClick(DialogInterface arg0, int arg1) {
                     DataIO.getInstance().saveName(et.getText().toString(),MainActivity.this);
 
+                    /**
+                     * Processdialog vises imens de nye ord hentes
+                     */
                     ProgressDialog dialog = new ProgressDialog(MainActivity.this,R.style.CustomDialogTheme);
                     dialog.setIndeterminate(true); // drejende hjul
                     dialog.setTitle("Ord Hentes");
                     dialog.setMessage("Vent venligst");
                     dialog.show();
 
-                    //Henter ord fra dr fra bagrundstråd
+                    //Henter ord fra googledocs fra bagrundstråd
                     bgThread.execute(() -> {
                         try{
 
@@ -118,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent help = new Intent(this,Help.class);
             startActivity(help);
             finish();
+        // Starter highscore aktiviteten
         }else if(view==highscore){
             Intent high = new Intent(this,Highscore.class);
             startActivity(high);
@@ -125,12 +129,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
+    /**
+     * Pop op menu til at vælge game mode
+     * @param v View elementet som skal vises
+     */
     public void showPopup(View v){
         PopupMenu popupMenu = new PopupMenu(this,v);
         popupMenu.setOnMenuItemClickListener(this);
         popupMenu.inflate(R.menu.popup);
         popupMenu.show();
     }
+
+    /**
+     * Starter den ønskede game mode
+     * @param item den knap som man har trykket
+     * @return true hvis man har trykket en knap
+     */
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){

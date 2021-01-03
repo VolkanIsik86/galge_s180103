@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.example.volkangalge.logik.DataIO;
 
+/**
+ * Vundet skærm
+ */
 public class Vundet extends AppCompatActivity implements View.OnClickListener {
     TextView antalforsøg;
     Button ja,nej;
@@ -31,7 +34,10 @@ public class Vundet extends AppCompatActivity implements View.OnClickListener {
         nej.setOnClickListener(this);
 
     }
-
+    /**
+     * Man kan vælge om man vil spille videre eller ej
+     * @param v knappen der blev trykket
+     */
     @Override
     public void onClick(View v) {
         if(v==ja){

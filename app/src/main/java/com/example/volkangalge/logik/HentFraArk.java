@@ -6,6 +6,11 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * Henter ord fra internettet.
+ * Denne klasse er publisher i observer pattern.
+ * Denne klasse er en singleton.
+ */
 public class HentFraArk implements HentOrd,HentFraNet {
     ArrayList<Ord> ordArrayList;
     ArrayList<String> alleOrd;
@@ -22,16 +27,28 @@ public class HentFraArk implements HentOrd,HentFraNet {
         return hentFraArk;
     }
 
+    /**
+     * Registerer ord klasser som skal opdateres
+     * @param ord Ord objekt som skal opdateres
+     */
     @Override
     public void registrer(Ord ord) {
         ordArrayList.add(ord);
     }
 
+    /**
+     * Fejerner ord klasser fra opdateringsliste
+     * @param ord  Ord objekt som skal fjernes
+     */
     @Override
     public void fjern(Ord ord) {
         ordArrayList.remove(ord);
     }
 
+    /**
+     * Opdater de ord klasser ved henting af nye ord fra nettet
+     * @param nyeOrd  De ord der blev hentet fra nettet
+     */
     @Override
     public void opdaterOrd(ArrayList<String> nyeOrd) {
         for (int i = 0; i <ordArrayList.size() ; i++) {
@@ -48,6 +65,12 @@ public class HentFraArk implements HentOrd,HentFraNet {
         this.alleOrd = alleOrd;
     }
 
+    /**
+     * Læser en url med buffered reader
+     * @param url adressen der skal læses inholde af
+     * @return indholdet
+     * @throws IOException
+     */
     @Override
     public String hentUrl(String url) throws IOException {
 
@@ -96,33 +119,3 @@ public class HentFraArk implements HentOrd,HentFraNet {
     }
 
 }
-
-/**
- * Hent ord fra DRs forside (https://dr.dk)
-
- public void hentOrdFraDr() throws Exception {
- String data = hentUrl("https://dr.dk");
- //System.out.println("data = " + data);
-
- data = data.substring(data.indexOf("<body")). // fjern headere
- replaceAll("<.+?>", " ").toLowerCase(). // fjern tags
- replaceAll("&#198;", "æ"). // erstat HTML-tegn
- replaceAll("&#230;", "æ"). // erstat HTML-tegn
- replaceAll("&#216;", "ø"). // erstat HTML-tegn
- replaceAll("&#248;", "ø"). // erstat HTML-tegn
- replaceAll("&oslash;", "ø"). // erstat HTML-tegn
- replaceAll("&#229;", "å"). // erstat HTML-tegn
- replaceAll("[^a-zæøå]", " "). // fjern tegn der ikke er bogstaver
- replaceAll(" [a-zæøå] "," "). // fjern 1-bogstavsord
- replaceAll(" [a-zæøå][a-zæøå] "," "); // fjern 2-bogstavsord
-
- System.out.println("data = " + data);
- System.out.println("data = " + Arrays.asList(data.split("\\s+")));
- muligeOrd.clear();
- muligeOrd.addAll(new HashSet<String>(Arrays.asList(data.split(" "))));
-
- System.out.println("muligeOrd = " + muligeOrd);
- // nulstil();
- }
-
- */

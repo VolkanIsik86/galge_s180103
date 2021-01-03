@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * Tabt spiller skærm
+ */
 public class Tabt extends AppCompatActivity implements View.OnClickListener {
     TextView antalforsøg;
     Button ja,nej;
@@ -29,6 +32,10 @@ public class Tabt extends AppCompatActivity implements View.OnClickListener {
         nej.setOnClickListener(this);
     }
 
+    /**
+     * Man kan vælge om man vil spille videre eller ej
+     * @param v knappen der blev trykket
+     */
     @Override
     public void onClick(View v) {
         if(v==ja){

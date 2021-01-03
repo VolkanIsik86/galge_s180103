@@ -56,11 +56,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         ord=findViewById(R.id.galgeord);
 
+        /**
+         * Gemmer den spiller navn man har tastet.
+         */
         if(intent.getStringExtra("spillernavn")!=null) {
             DataIO.getInstance().saveName(intent.getStringExtra("spillernavn"),this);
         }
-
-                if(difficulty.equals("easy"))
+        /**
+         * initaliserer logikken efter den ønskede spille funktion
+         */
+        if(difficulty.equals("easy"))
                     logik = new Galgelogik(spilordnem.randomOrd());
                 else if (difficulty.equals("hard"))
                     logik = new Galgelogik(spilordsvær.randomOrd());
@@ -197,6 +202,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Slutter spillet og skiftet aktivitet til vundet skærm eller tabt skærm
+     * @param vundet vundet eller tabt
+     */
    public void slutspilllet(boolean vundet){
         if(vundet){
 

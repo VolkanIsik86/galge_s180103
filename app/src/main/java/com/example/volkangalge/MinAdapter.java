@@ -6,10 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.example.volkangalge.logik.Spiller;
 import com.example.volkangalge.logik.SpillerScores;
-
 import java.util.Collections;
 //https://guides.codepath.com/android/Using-a-BaseAdapter-with-ListView
 
@@ -47,6 +44,7 @@ public class MinAdapter extends BaseAdapter {
         TextView spillernavn = (TextView) convertView.findViewById(R.id.spillernavn);
         TextView spillerscore = (TextView) convertView.findViewById(R.id.spillerscore);
 
+        // sorter i spiller liste så den højeste score er den første i listen der skal vises
         Collections.sort(spillerScores.scores);
 
         String navnogpos= String.valueOf(position+1)+": "+spillerScores.scores.get(position).getNavn();

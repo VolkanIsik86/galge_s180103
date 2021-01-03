@@ -6,6 +6,9 @@ import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 
+/**
+ * Klassen bruges til at kommuniker med preference manager
+ */
 public class DataIO {
 
     public static DataIO dataIO;
@@ -19,6 +22,11 @@ public class DataIO {
         return dataIO;
     }
 
+    /**
+     * Gemmer spillerens score i localt lager
+     * @param spiller den nuværende spiller
+     * @param context aktivetet som man befinder sig i
+     */
     public void saveScore(Spiller spiller,Context context){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String allescores = prefs.getString("allescore","ingen score");
@@ -35,7 +43,11 @@ public class DataIO {
         prefs.edit().putString("allescore",allescores).apply();
     }
 
-
+    /**
+     * Læser spiller score som er gemt i localt lager
+     * @param context den aktivitet som man befinder sig i
+     * @return
+     */
     public SpillerScores readScore(Context context){
         SpillerScores scores = null;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -47,11 +59,21 @@ public class DataIO {
         return scores;
     }
 
+    /**
+     * Gemmer spiller navnet for at at bruge det i forbindelse med at gemme spiller score
+     * @param name Spiller navnet
+     * @param context den aktivitet som man befinder sig i
+     */
     public void saveName(String name, Context context){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs.edit().putString("spillernavn", name).apply();
     }
 
+    /**
+     * Læser navner på den nuverænde spiller som gemt i localt lager
+     * @param context den aktivitet som man befinder sig i
+     * @return Spiller navnet
+     */
     public String readName(Context context){
         String name = null;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -59,11 +81,21 @@ public class DataIO {
         return name;
     }
 
+    /**
+     * Gemmer den ønskede spille mode
+     * @param difficulty den spille mode man har valgt
+     * @param context den aktivitet som man befinder sig i
+     */
     public void saveDifficulty(String difficulty, Context context){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs.edit().putString("difficulty", difficulty).apply();
     }
 
+    /**
+     * Læser den spille mode man har valgt
+     * @param context den aktivitet som man befinder sig i
+     * @return Spille mode
+     */
     public String readDifficulty(Context context){
         String difficulty = null;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

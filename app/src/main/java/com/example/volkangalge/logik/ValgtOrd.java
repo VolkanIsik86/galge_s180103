@@ -1,6 +1,10 @@
 package com.example.volkangalge.logik;
 
 import java.util.ArrayList;
+/**
+ * Selv valgt ord for at spille spillet med.
+ *
+ */
 
 public class ValgtOrd implements Ord{
     ArrayList<String> alleOrd;
@@ -21,12 +25,18 @@ public class ValgtOrd implements Ord{
         alleOrd.add("løve");
         alleOrd.add("router");
     }
-
+    /**
+     * Vælger en tilfældig ord fra listen
+     * @return tilfældig ord fra listen
+     */
     @Override
     public String randomOrd() {
         return null;
     }
-
+    /**
+     * Opdatering af ordliste
+     * @param muligeord De ord som listen skal opdateres med
+     */
     @Override
     public void update(ArrayList<String> muligeord) {
         for (int i = 0; i < muligeord.size() ; i++) {
