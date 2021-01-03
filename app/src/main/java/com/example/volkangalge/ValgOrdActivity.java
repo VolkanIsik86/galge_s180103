@@ -23,6 +23,7 @@ public class ValgOrdActivity extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_valg_ord);
 
+// https://developer.android.com/training/monitoring-device-state/connectivity-status-type
         ConnectivityManager cm =
                 (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
