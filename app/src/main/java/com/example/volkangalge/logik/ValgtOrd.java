@@ -15,6 +15,11 @@ public class ValgtOrd implements Ord{
         alleOrd.add("skovsnegl");
         alleOrd.add("solsort");
         alleOrd.add("nitten");
+        alleOrd.add("bil");
+        alleOrd.add("hest");
+        alleOrd.add("sko");
+        alleOrd.add("løve");
+        alleOrd.add("router");
     }
 
     @Override

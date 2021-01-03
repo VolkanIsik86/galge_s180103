@@ -2,7 +2,10 @@ package com.example.volkangalge;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.volkangalge.logik.HentFraArk;
+import com.example.volkangalge.logik.ValgtOrd;
 
 public class ValgOrdActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -19,7 +23,22 @@ public class ValgOrdActivity extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_valg_ord);
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1, HentFraArk.getInstance().getAlleOrd().toArray());
+        ConnectivityManager cm =
+                (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        ArrayAdapter adapter;
+        if(isConnected) {
+            adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1,
+                    HentFraArk.getInstance().getAlleOrd().toArray());
+        }else {
+            ValgtOrd offlineOrd = new ValgtOrd();
+            adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1,
+                    offlineOrd.getAlleOrd().toArray());
+        }
 
         ListView listView = findViewById(R.id.ordlist);
         listView.setOnItemClickListener(this);

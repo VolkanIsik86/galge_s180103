@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }catch (Exception e){
                             e.printStackTrace();
                             uiThread.post(() -> {
+                                dialog.dismiss();
                                 showPopup(view);
                             });
                         }
